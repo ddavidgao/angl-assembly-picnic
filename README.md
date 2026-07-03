@@ -1,7 +1,12 @@
 # Angl Assembly Picnic
 
-A tiny public-safe demo of an Angl chapter compiling to a real ARM64 assembly
-implementation that powers a browser UI.
+A tiny public-safe prototype of an Angl chapter paired with a real ARM64
+assembly implementation that powers a browser UI.
+
+Important: this repo is not yet proof that the current Angl compiler can
+generate ARM64 assembly. The assembly file is checked in as the implementation
+shape Angl should eventually generate. The real compiler backend still needs to
+be built before this should be described as "Angl generated assembly."
 
 The source of truth is:
 
@@ -45,4 +50,4 @@ http://127.0.0.1:8789
 - No local infrastructure, IP addresses, or model endpoints are committed.
 
 This is intentionally small: the point is to make the source/build split
-visible, not to build a full Angl compiler backend in this demo repo.
+visible, not to claim a finished assembly compiler backend.
