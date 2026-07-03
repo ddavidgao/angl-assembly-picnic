@@ -1,0 +1,123 @@
+# Optimize Picnic Basket
+
+> Boundary: `optimize_picnic_basket(items: object, constraints: object) -> object`
+> Runs as: `arm64_assembly`
+
+## Purpose
+
+Choose a picnic basket that maximizes enjoyment while staying under a weight
+limit and adapting to the weather.
+
+## Behavior
+
+Each item has an `id`, `name`, `weight`, `happiness`, `heat_penalty`, and
+`rain_penalty`.
+
+Select any subset of the items. The selected subset must have total weight less
+than or equal to `constraints.max_weight`.
+
+The base score is the sum of selected item happiness values. If
+`constraints.heat` is at least 7, subtract each selected item's heat penalty. If
+`constraints.rain` is at least 6, subtract each selected item's rain penalty.
+
+Return an object with:
+
+* `selected_ids`: selected item ids in their original input order.
+* `total_weight`: total selected weight.
+* `score`: final weather-adjusted score.
+* `warnings`: short strings explaining weather-sensitive choices.
+
+If no item fits, return an empty selection with weight `0` and score `0`.
+
+## Examples
+
+### Weight limit chooses the best light basket
+
+When the basket can carry only five weight units, choose the best light
+combination.
+
+Input `items`:
+```json
+[
+  {"id": "sandwiches", "name": "Sandwiches", "weight": 3, "happiness": 8, "heat_penalty": 1, "rain_penalty": 0},
+  {"id": "lemonade", "name": "Lemonade", "weight": 2, "happiness": 5, "heat_penalty": 0, "rain_penalty": 1},
+  {"id": "blanket", "name": "Blanket", "weight": 4, "happiness": 6, "heat_penalty": 0, "rain_penalty": 0}
+]
+```
+
+Input `constraints`:
+```json
+{"max_weight": 5, "heat": 4, "rain": 2}
+```
+
+Returns:
+```json
+{"selected_ids": ["sandwiches", "lemonade"], "total_weight": 5, "score": 13, "warnings": []}
+```
+
+### Hot weather avoids meltable dessert
+
+When it is hot, a high heat penalty can make dessert worse than lighter snacks.
+
+Input `items`:
+```json
+[
+  {"id": "ice_cream", "name": "Ice cream", "weight": 2, "happiness": 10, "heat_penalty": 9, "rain_penalty": 0},
+  {"id": "fruit", "name": "Fruit", "weight": 2, "happiness": 6, "heat_penalty": 0, "rain_penalty": 0},
+  {"id": "water", "name": "Water", "weight": 1, "happiness": 3, "heat_penalty": 0, "rain_penalty": 0}
+]
+```
+
+Input `constraints`:
+```json
+{"max_weight": 3, "heat": 8, "rain": 1}
+```
+
+Returns:
+```json
+{"selected_ids": ["fruit", "water"], "total_weight": 3, "score": 9, "warnings": ["hot day: heat penalties applied"]}
+```
+
+### Rain changes the best choice
+
+When rain risk is high, uncovered games lose value.
+
+Input `items`:
+```json
+[
+  {"id": "cards", "name": "Cards", "weight": 1, "happiness": 7, "heat_penalty": 0, "rain_penalty": 8},
+  {"id": "thermos", "name": "Thermos", "weight": 3, "happiness": 7, "heat_penalty": 0, "rain_penalty": 0},
+  {"id": "poncho", "name": "Poncho", "weight": 2, "happiness": 4, "heat_penalty": 0, "rain_penalty": 0}
+]
+```
+
+Input `constraints`:
+```json
+{"max_weight": 4, "heat": 3, "rain": 8}
+```
+
+Returns:
+```json
+{"selected_ids": ["thermos"], "total_weight": 3, "score": 7, "warnings": ["rain risk: rain penalties applied"]}
+```
+
+### Nothing fits
+
+When every item is too heavy, return the empty basket.
+
+Input `items`:
+```json
+[
+  {"id": "cooler", "name": "Cooler", "weight": 10, "happiness": 12, "heat_penalty": 0, "rain_penalty": 0}
+]
+```
+
+Input `constraints`:
+```json
+{"max_weight": 3, "heat": 2, "rain": 1}
+```
+
+Returns:
+```json
+{"selected_ids": [], "total_weight": 0, "score": 0, "warnings": []}
+```

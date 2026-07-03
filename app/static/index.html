@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angl Assembly Picnic</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Angl chapter → ARM64 assembly → browser UI</p>
+        <h1>Picnic Basket Optimizer</h1>
+        <p class="lede">
+          The UI is ordinary web code. The basket optimizer is an ARM64 assembly
+          kernel generated for an Angl chapter and verified against black-box
+          contract examples.
+        </p>
+      </div>
+      <div class="status">
+        <span>implementation</span>
+        <strong>generated/picnic_kernel.s</strong>
+      </div>
+    </section>
+
+    <section class="controls">
+      <label>
+        Max weight
+        <input id="maxWeight" type="range" min="2" max="12" value="7">
+        <output id="maxWeightOut">7</output>
+      </label>
+      <label>
+        Heat
+        <input id="heat" type="range" min="0" max="10" value="4">
+        <output id="heatOut">4</output>
+      </label>
+      <label>
+        Rain risk
+        <input id="rain" type="range" min="0" max="10" value="2">
+        <output id="rainOut">2</output>
+      </label>
+    </section>
+
+    <section class="grid">
+      <div>
+        <h2>Basket candidates</h2>
+        <div id="items" class="items"></div>
+      </div>
+      <aside class="result">
+        <h2>Assembly result</h2>
+        <div id="score" class="score">-</div>
+        <div id="selected" class="selected"></div>
+        <div id="warnings" class="warnings"></div>
+      </aside>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
